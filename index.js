@@ -30,6 +30,10 @@ app.get('/', function(req, res) {
   });
 });
 
+app.use(function(res) {
+  return res.send('Not Implemented');
+});
+
 var server = app.listen(3000, function() {
   var host = server.address().address;
   var port = server.address().port;
