@@ -17,12 +17,12 @@ app.get('/', function(req, res) {
 
   rdio.getClientToken(function(err) {
     if (err) {
-      return console.log('err', err);
+      return res.send(err);
     }
 
     rdio.request({method: 'getTopCharts', type: 'Track'}, false, function(err, data) {
       if (err) {
-        return console.log('err: ', err);
+        return res.send(err);
       }
 
       res.send(data);
