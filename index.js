@@ -1,6 +1,7 @@
 require('dotenv').load();
 var clientId = process.env.RDIO_ID;
 var clientSecret = process.env.RDIO_SECRET;
+var port = process.env.PORT || 3000;
 
 var Rdio = require('rdio')({
   rdio: {
@@ -34,7 +35,7 @@ app.use(function(res) {
   return res.send('Not Implemented');
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(port, function() {
   var host = server.address().address;
   var port = server.address().port;
 
