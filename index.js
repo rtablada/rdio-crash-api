@@ -24,7 +24,7 @@ app.get('/', function(req, res) {
       return res.send(err);
     }
 
-    rdio.request({method: 'getTopCharts', type: 'Track'}, false, function(err, data) {
+    rdio.request({method: 'getTopCharts', type: 'Album'}, false, function(err, data) {
       if (err) {
         return res.send(err);
       }
