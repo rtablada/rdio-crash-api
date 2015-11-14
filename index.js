@@ -50,6 +50,7 @@ app.get('/albums/:key', function(req, res) {
 
       var result = data.result[req.params.key];
       var trackKeys = result.trackKeys;
+      data.result = result;
 
       rdio.request({method: 'get', keys: trackKeys.join(',')}, false, function(err, trackData) {
         if (err) {
