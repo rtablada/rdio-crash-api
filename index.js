@@ -1,4 +1,5 @@
 require('dotenv').load();
+var _ = require('lodash');
 var clientId = process.env.RDIO_ID;
 var clientSecret = process.env.RDIO_SECRET;
 var port = process.env.PORT || 3000;
@@ -30,6 +31,39 @@ app.get('/', function(req, res) {
       }
 
       res.send(data);
+    });
+  });
+});
+
+app.get('/albums/:key', function(req, res) {
+  var rdio = new Rdio();
+
+  rdio.getClientToken(function(err) {
+    if (err) {
+      return res.send(err);
+    }
+
+    rdio.request({method: 'get', keys: req.params.key}, false, function(err, data) {
+      if (err) {
+        return res.send(err);
+      }
+
+      var result = data.result[req.params.key];
+      var trackKeys = result.trackKeys;
+
+      rdio.request({method: 'get', keys: trackKeys.join(',')}, false, function(err, trackData) {
+        if (err) {
+          return res.send(err);
+        }
+
+        result.tracks = trackKeys.reduce((carry, trackKey) => {
+          carry.push(trackData.result[trackKey]);
+
+          return carry;
+        }, []);
+
+        res.send(data);
+      });
     });
   });
 });
